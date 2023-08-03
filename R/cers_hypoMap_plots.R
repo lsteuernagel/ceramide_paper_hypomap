@@ -16,7 +16,7 @@ short_palette = as.character(palette.colors(palette = "Okabe-Ito"))
 short_palette = short_palette[!short_palette %in% c("#999999","#000000")]
 getOkabeItoPalette = colorRampPalette(short_palette)
 
-sourcedata_path = "philipp_cers_paper/source_data/"
+sourcedata_path = "source_data/"
 dir.create(sourcedata_path)
 
 ##########
@@ -27,7 +27,7 @@ dir.create(sourcedata_path)
 hypoMap_cluster_plot = DimPlot(hypoMap,group.by = "C7_named",order = TRUE,cols = getOkabeItoPalette(7),pt.size = 1,raster = TRUE,raster.dpi = c(2048,2048),repel = TRUE,label = TRUE,label.size = 7)+
   xlab("UMAP")+ylab("UMAP")+theme(text = element_text(size=20),axis.text = element_text(size=20))+ggtitle("HypoMap overview")  +NoLegend() #+NoAxes()#
 hypoMap_cluster_plot
-ggsave(hypoMap_cluster_plot,filename = "/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/hypoMap_celltype_overview.pdf",width = 300,height = 300,units = "mm",device = "pdf")
+ggsave(hypoMap_cluster_plot,filename = "plots/hypoMap_celltype_overview.pdf",width = 300,height = 300,units = "mm",device = "pdf")
 
 # source files
 figure1_sourcedata = hypoMap_cluster_plot$data
@@ -49,7 +49,7 @@ for(g in cers_genes){
     scale_color_gradient(low = "grey90",high = "#0b3ebd",limits=c(0,4),oob=squish) 
    # scale_fill_continuous(limits=c(0,4),oob=squish) #+NoAxes()# +NoLegend()
   #hypoMap_cers_plot
-  ggsave(hypoMap_cers_plot,filename = paste0("/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/",g,"_hypoMap_ordered.pdf"),width = 300,height = 300,units = "mm",device = "pdf")
+  ggsave(hypoMap_cers_plot,filename = paste0("plots/",g,"_hypoMap_ordered.pdf"),width = 300,height = 300,units = "mm",device = "pdf")
 }
 
 ## add cers expression
@@ -86,7 +86,7 @@ dotplot_cers = dotplot_cers + guides(color=guide_colourbar('Avg. Exp.'),size = g
   coord_flip()
 dotplot_cers
 
-ggsave(dotplot_cers,filename = paste0("/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/dotplot_cers_C66neurons.pdf"),width = 450,height = 250,units = "mm",device = "pdf")
+ggsave(dotplot_cers,filename = paste0("plots/dotplot_cers_C66neurons.pdf"),width = 450,height = 250,units = "mm",device = "pdf")
 
 
 ##
@@ -118,7 +118,7 @@ dotplot_cers = dotplot_cers + guides(color=guide_colourbar('Avg. Exp.'),size = g
   coord_flip()
 dotplot_cers
 
-ggsave(dotplot_cers,filename = paste0("/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/dotplot_cers_classes.pdf"),width = 450,height = 250,units = "mm",device = "pdf")
+ggsave(dotplot_cers,filename = paste0("plots/dotplot_cers_classes.pdf"),width = 450,height = 250,units = "mm",device = "pdf")
 
 #
 figure3_sourcedata = dotplot_cers$data %>% dplyr::select(gene = features.plot, cluster = id, avg.exp, pct.exp, -avg.exp.scaled)
@@ -157,7 +157,7 @@ dotplot_cers = dotplot_cers + guides(color=guide_colourbar('Avg. Exp.'),size = g
   coord_flip()
 dotplot_cers
 
-ggsave(dotplot_cers,filename = paste0("/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/dotplot_cers_specific_neurons.pdf"),width = 250,height = 250,units = "mm",device = "pdf")
+ggsave(dotplot_cers,filename = paste0("plots/dotplot_cers_specific_neurons.pdf"),width = 250,height = 250,units = "mm",device = "pdf")
 
 figure4_sourcedata = dotplot_cers$data %>% dplyr::select(gene = features.plot, cluster = id, avg.exp, pct.exp, -avg.exp.scaled)
 data.table::fwrite(figure4_sourcedata,file=paste0(sourcedata_path,"source_data_4_dotplot_neurons.txt"),sep="\t")
@@ -204,10 +204,10 @@ barplot_cers = ggplot(per_Cluster_occ_filt_long,aes(x=gene,y=pct,fill=Celltype))
 barplot_cers
 
 ## with 
-ggsave(barplot_cers,filename = paste0("/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/barplot_cers.pdf"),
+ggsave(barplot_cers,filename = paste0("plots/barplot_cers.pdf"),
        width = 300,height = 250,units = "mm",device = "pdf")
 
-ggsave(barplot_cers,filename = paste0("/beegfs/scratch/bruening_scratch/lsteuernagel/projects/analysis_projects/philipp_cers_paper/plots/barplot_cers_cellnumbers.pdf"),
+ggsave(barplot_cers,filename = paste0("plots/barplot_cers_cellnumbers.pdf"),
        width = 300,height = 250,units = "mm",device = "pdf")
 
 figure5_sourcedata = barplot_cers$data %>% dplyr::select(-Celltype,-.group)
